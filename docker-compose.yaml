@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  vault:
+    image: vault:1.12.0
+    cap_add:
+      - IPC_LOCK
+    depends_on:
+      - kms
+    command:
+      - "bin/sh"
+      - "-ec"
+      - "/usr/local/bin/docker-entrypoint.sh vault server -config=/tmp/config.hcl"
+    ports:
+      - 8200:8200
+    volumes:
+      - ./compose/vault.hcl:/tmp/config.hcl
+      - vaultData:/vault/data
+
+  kms:
+    image: nsmithuk/local-kms
+    restart: always
+    environment:
+      - KMS_REGION=us-east-1
+      - KMS_ACCOUNT_ID=000000000000
+    volumes:
+      - ./compose/kms.yaml:/init/seed.yaml
+    ports:
+      - 8080:8080
+
+volumes:
+  vaultData:
+    driver: local
+    driver_opts:
+       type: none
+       o: bind
+       device: ${PWD}/vault-1/

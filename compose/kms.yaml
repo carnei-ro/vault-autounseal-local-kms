@@ -1,0 +1,11 @@
+Keys:
+  Symmetric:
+    Aes:
+      - Metadata:
+          KeyId: c214a70a-6055-11ed-89e5-b3dfbf565a15
+        BackingKeys:
+          - 84487c89e6e92c60e4aefb7ea74babd920c7cfdb46cfc149c5ba34cff2f78197
+
+Aliases:
+  - AliasName: alias/my-vault-key
+    TargetKeyId: c214a70a-6055-11ed-89e5-b3dfbf565a15
